@@ -1,8 +1,7 @@
 const mongoose = require('mongoose')
 
-
-const dataSchema = mongoose.Schema({
-    name: { type: String, require: true, unique: false },
+const dataSchema = new mongoose.Schema({
+    name: { type: String, default: null },
     barcode: { type: String, default: null },
     purchase_price: { type: String, default: null },
     selling_price: { type: String, default: null },
@@ -16,12 +15,10 @@ const dataSchema = mongoose.Schema({
     wholesale_price: { type: String, default: null },
     minimum_sale_price: { type: String, default: null },
     minimum_wholesale_price: { type: String, default: null },
-    has_variant: { type: String, default: null },
-    createdDate: { type: Date, default: Date.now() },
-    updatedDate: { type: Date, default: Date.now() }
+    has_variant: { type: String, default: null }
 
-})
+}, { timestamps: true })
 
 
-const ProductModel = mongoose.model('productList', dataSchema);
-module.exports = ProductModel;
+const CSVUploadModel = mongoose.model('uploadCSV', dataSchema);
+module.exports = CSVUploadModel;

@@ -2,10 +2,9 @@ require('dotenv').config();
 const express = require('express')
 const app = express();
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
-
-const productRouter = require("./src/routes/ProductApi");
-
+const bodyParser = require("body-parser");
+const filesRouter = require("./src/routes/FilesApi");
+const path = require("path")
 
 //Security Middleware Import
 const rateLimit = require('express-rate-limit')
@@ -18,13 +17,13 @@ const mongoose = require('mongoose');
 
 //Security Middleware Implement
 app.use(cors())
+// app.use(bodyParser.raw({type:"application/octet-stream",limit:"100mb"}))
 app.use(helmet())
 app.use(mongoSanitize())
 app.use(xss())
 app.use(hpp())
-
 app.use(express.json({ limit: "50mb" }));
-
+app.use('/public',express.static(path.join(__dirname,'public')))
 //rate limit
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -52,7 +51,7 @@ mongoose.connect(uri, option, (err) => {
 
 // productRouter
 
-app.use("/api/v1", productRouter);
+app.use("/api/v1", filesRouter);
 
 
 
